@@ -38,6 +38,10 @@ class TodoList {
         return addItem(item)
     }
 
+    func index(of item: ChecklistItem) -> Int? {
+        return todos.index(of: item)
+    }
+
     subscript(row: Int) -> ChecklistItem {
         get {
             return todos[row]

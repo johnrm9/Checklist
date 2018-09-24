@@ -57,10 +57,26 @@ class ChecklistViewController: UITableViewController {
         checkmarkLabel.text = item.isChecked ? "✓" : ""
     }
 
+    enum SegueIdentifer: String {
+        case AddItemSegue
+        case EditItemSegue
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "AddItemSegue",
+        guard let identifier = segue.identifier, let segueIdentifer = SegueIdentifer(rawValue: identifier),
             let addItemViewController = segue.destination as? AddItemTableViewController else { return }
+
         addItemViewController.delegate = self
+
+        switch segueIdentifer {
+        case .AddItemSegue:
+            addItemViewController.todoList = todoList
+        case .EditItemSegue:
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+                let item = todoList[indexPath.row]
+                addItemViewController.itemToEdit = item
+            }
+        }
     }
 }
 
@@ -73,7 +89,14 @@ extension ChecklistViewController: AddItemTableViewControllerDelegate {
         navigationController?.popViewController(animated: true)
         let row = todoList.count
         todoList.addItem(item)
-        let indexPath = IndexPath(row: row, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.insertRows(at: [IndexPath(row: row, section: 0)], with: .automatic)
+    }
+
+    func addItemViewController(_ controller: AddItemTableViewController, didFinishEditing item: ChecklistItem) {
+        navigationController?.popViewController(animated: true)
+        guard let row = todoList.index(of: item),
+            let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) else { return }
+            configureText(for: cell, with: item)
     }
 }
+

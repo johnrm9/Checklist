@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.15" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rbn-l0-vWt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rbn-l0-vWt">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.9"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -47,6 +47,9 @@
                                         <constraint firstItem="mvI-1k-blB" firstAttribute="leading" secondItem="067-Y7-Jo9" secondAttribute="leadingMargin" constant="-10" id="cD0-hB-4WD"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="xbN-5w-JEb" kind="show" identifier="EditItemSegue" trigger="accessoryAction" id="Rc8-5O-f6P"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -85,10 +88,10 @@
             </objects>
             <point key="canvasLocation" x="-58.399999999999999" y="-81.409295352323838"/>
         </scene>
-        <!--Title-->
+        <!--AddEdit Item-->
         <scene sceneID="npu-TL-CLj">
             <objects>
-                <tableViewController title="Title" id="xbN-5w-JEb" customClass="AddItemTableViewController" customModule="Checklist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="AddEdit Item" id="xbN-5w-JEb" customClass="AddItemTableViewController" customModule="Checklist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="A96-IC-YPd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,7 +106,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter new todo" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FjX-Uc-FPI">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter to add todo" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FjX-Uc-FPI">
                                                     <rect key="frame" x="16" y="10.5" width="343" height="22.5"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -136,15 +139,15 @@
                                 <action selector="cancel:" destination="xbN-5w-JEb" id="kh4-g7-qL9"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Add" id="X3u-rB-7R0">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="X3u-rB-7R0">
                             <connections>
                                 <action selector="done:" destination="xbN-5w-JEb" id="82Y-Sk-IKf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addBarButton" destination="X3u-rB-7R0" id="SJh-KH-MKA"/>
                         <outlet property="cancelBarButton" destination="Ymt-Jj-ClY" id="w8K-FP-xPa"/>
+                        <outlet property="doneBarButton" destination="X3u-rB-7R0" id="VHC-9m-vd0"/>
                         <outlet property="textfield" destination="FjX-Uc-FPI" id="RuU-oS-le6"/>
                     </connections>
                 </tableViewController>
@@ -153,4 +156,7 @@
             <point key="canvasLocation" x="1877.5999999999999" y="-89.505247376311857"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Rc8-5O-f6P"/>
+    </inferredMetricsTieBreakers>
 </document>

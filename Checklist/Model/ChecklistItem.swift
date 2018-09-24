@@ -8,17 +8,29 @@
 
 import Foundation
 
-struct ChecklistItem {
-    let text: String
-    var isChecked: Bool = false
+class ChecklistItem: NSObject {
+    private var _text: String
+    private var _isChecked: Bool = false
 
-    mutating func toggled() -> ChecklistItem {
-        isChecked.toggle()
+    func toggled() -> ChecklistItem {
+        _isChecked.toggle()
         return self
     }
 
+    var text: String {
+        get {
+            return _text
+        }
+        set {
+            _text = newValue
+        }
+    }
+    var isChecked: Bool {
+        return _isChecked
+    }
+
     init(text: String, isChecked: Bool = false) {
-        self.text = text
-        self.isChecked = isChecked
+        self._text = text
+        self._isChecked = isChecked
     }
 }

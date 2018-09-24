@@ -11,13 +11,22 @@ import UIKit
 protocol AddItemTableViewControllerDelegate: class {
     func addItemViewControllerDidCancel(_ controller: AddItemTableViewController)
     func addItemViewController(_ controller: AddItemTableViewController, didFinishAdding item: ChecklistItem)
+    func addItemViewController(_ controller: AddItemTableViewController, didFinishEditing item: ChecklistItem)
 }
 
-class AddItemTableViewController: UITableViewController {
+protocol ChecklistItemDelegate: class {
+     var itemToEdit: ChecklistItem? { get }
+}
+
+class AddItemTableViewController: UITableViewController, ChecklistItemDelegate {
 
     weak var delegate: AddItemTableViewControllerDelegate?
 
-    @IBOutlet weak var addBarButton: UIBarButtonItem!
+    weak var todoList: TodoList?
+
+    weak var itemToEdit: ChecklistItem?
+
+    @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
 
     @IBOutlet weak var textfield: UITextField!
@@ -28,17 +37,30 @@ class AddItemTableViewController: UITableViewController {
     }
 
     @IBAction func done(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
         let text: String = textfield.text ?? ""
-        let item = ChecklistItem(text: text, isChecked: false)
-        delegate?.addItemViewController(self, didFinishAdding: item)
+
+        if let item = itemToEdit {
+            item.text = text
+            delegate?.addItemViewController(self, didFinishEditing: item)
+        } else {
+            let item = ChecklistItem(text: text, isChecked: false)
+            delegate?.addItemViewController(self, didFinishAdding: item)
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+         doneBarButton.isEnabled = false
+
+        if let item = itemToEdit {
+            title = "Edit Item"
+            textfield.text = item.text
+            textfield.placeholder = "Enter to edit todo"
+            doneBarButton.isEnabled = true
+        }
+
         navigationItem.largeTitleDisplayMode = .never
-        addBarButton.isEnabled = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +93,7 @@ extension AddItemTableViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let oldText = textfield.text, let stringRange = Range(range, in: oldText) else { return false }
         let newText = oldText.replacingCharacters(in: stringRange, with: string)
-        addBarButton.isEnabled = !newText.isEmpty
+        doneBarButton.isEnabled = !newText.isEmpty
         return true
     }
 }
